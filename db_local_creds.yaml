@@ -1,0 +1,5 @@
+host: localhost
+user: postgres
+dbname: Sales_Data
+password: Aztec2344)
+port: 5432
