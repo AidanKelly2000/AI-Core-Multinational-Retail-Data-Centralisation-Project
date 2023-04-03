@@ -48,7 +48,15 @@ class DataCleaning():
 
         # drop the rows with missing or random values
         cleaned_users_card_details_df = cleaned_users_card_details_df[~mask]
-        
+
+        # Define a regular expression that matches all non-numeric characters
+        pattern = r'[^0-9]'
+
+        # Use the replace() method to remove all non-numeric characters from the column
+        cleaned_users_card_details_df['card_number'] = cleaned_users_card_details_df['card_number'].replace(pattern, '', regex=True)
+
+        print("Longest length is:", cleaned_users_card_details_df['card_number'].astype(str).str.len().max())
+        # print("Longest length is:\n", cleaned_users_card_details_df.expiry_date.str.len().max())
         return cleaned_users_card_details_df
     
     @staticmethod
@@ -68,7 +76,7 @@ class DataCleaning():
         # drop the rows with missing or random values
         cleaned_store_data = cleaned_store_data[~mask]
         
-        return print(cleaned_store_data)
+        return cleaned_store_data
     
     @staticmethod
     def convert_product_weights(table):
@@ -112,8 +120,7 @@ class DataCleaning():
                         for x in new_units]
 
         converted_product_weights.loc[:, 'weight'] = new_units
-        # print("Longest length is:\n", converted_product_weights.weight_class.str.len().max())
-        return print(converted_product_weights)
+        return converted_product_weights
     
     @staticmethod
     def clean_orders_data(table):
@@ -121,7 +128,7 @@ class DataCleaning():
         cleaned_orders_df = table
         cleaned_orders_df.drop(['level_0', 'first_name', 'last_name', '1'], axis=1, inplace=True)
         # Returning the longest length
-        
+        print(cleaned_orders_df.loc[[144]])
         return cleaned_orders_df
     
     @staticmethod
@@ -138,7 +145,6 @@ class DataCleaning():
 
         # drop the rows with missing or random values
         cleaned_datetime_df = cleaned_datetime_df[~mask]
-        
         return cleaned_datetime_df
     
 

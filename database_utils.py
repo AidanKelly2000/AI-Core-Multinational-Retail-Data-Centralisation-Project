@@ -71,7 +71,7 @@ class DatabaseConnector():
         store_data = []
 
         # Loop over all possible store numbers (1-999)
-        for store_number in range(1, 452):
+        for store_number in range(0, 451):
             # Construct the store endpoint URL using the current store number
             url = endpoint.format(store_number=store_number)
 
@@ -79,8 +79,8 @@ class DatabaseConnector():
             response = requests.get(url, headers=headers)
 
             # If the response code is not 200 (OK), skip this store
-            if response.status_code != 200:
-                continue
+            # if response.status_code != 200:
+            #     continue
 
             # Extract the store data from the response JSON
             store_json = response.json()

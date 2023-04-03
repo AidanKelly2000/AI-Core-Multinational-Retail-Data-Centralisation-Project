@@ -73,10 +73,10 @@ db_extractor = DataExtractor()
 # db_connector.upload_to_db(cleaned_users_card_details_df, 'dim_card_details')
 
 
-headers={'x-api-key': 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'}
-stores_data = "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{store_number}"
-store_data = db_connector.retrieve_stores_data(stores_data, headers)
-cleaned_store_data = DataCleaning.clean_store_data(store_data)
+# headers={'x-api-key': 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'}
+# stores_data = "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{store_number}"
+# store_data = db_connector.retrieve_stores_data(stores_data, headers)
+# cleaned_store_data = DataCleaning.clean_store_data(store_data)
 # db_connector.upload_to_db(cleaned_store_data, 'dim_store_details')
 
 
@@ -85,8 +85,8 @@ cleaned_store_data = DataCleaning.clean_store_data(store_data)
 # db_connector.upload_to_db(converted_weights, 'dim_products')
 
 
-# orders_df = db_extractor.read_rds_table(table='orders_table', engine=db_connector.engine)
-# clean_orders_table = DataCleaning.clean_orders_data(orders_df)
+orders_df = db_extractor.read_rds_table(table='orders_table', engine=db_connector.engine)
+clean_orders_table = DataCleaning.clean_orders_data(orders_df)
 # db_connector.upload_to_db(clean_orders_table, 'orders_table')
 
 # url = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json'
