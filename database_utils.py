@@ -37,26 +37,18 @@ class DatabaseConnector():
         
     def upload_to_db(self, df, table_name):
 
-        # conn = psycopg2.connect(
         host = "localhost",
         user = "postgres",
         dbname = "Sales_Data",
         password = "",
         port = 5432
-        # )
+
         with open('db_local_creds.yaml') as f:
             creds = yaml.safe_load(f)
 
         engine = create_engine(f"{'postgresql'}+{'psycopg2'}://{creds['user']}:{creds['password']}@{creds['host']}:{creds['port']}/{creds['dbname']}")
         engine.connect()
         df.to_sql(table_name, engine, if_exists='replace')
-        # cursor = conn.cursor()
-        # cursor.execute(f"CREATE TABLE {table_name} ();")
-        # cleaned_users_df.to_sql(table_name, conn, if_exists='replace', index=False)
-
-        
-
-        # Commit changes and close connection
 
     @staticmethod
     def list_number_of_stores(endpoint, headers):
@@ -70,17 +62,14 @@ class DatabaseConnector():
         # Create an empty list to hold the store data
         store_data = []
 
-        # Loop over all possible store numbers (1-999)
+        # Loop over all possible store numbers
         for store_number in range(0, 451):
+            
             # Construct the store endpoint URL using the current store number
             url = endpoint.format(store_number=store_number)
 
             # Make a request to the store endpoint
             response = requests.get(url, headers=headers)
-
-            # If the response code is not 200 (OK), skip this store
-            # if response.status_code != 200:
-            #     continue
 
             # Extract the store data from the response JSON
             store_json = response.json()
