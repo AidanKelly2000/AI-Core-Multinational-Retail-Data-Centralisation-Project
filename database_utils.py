@@ -41,7 +41,7 @@ class DatabaseConnector():
         host = "localhost",
         user = "postgres",
         dbname = "Sales_Data",
-        password = "Aztec2344)",
+        password = "",
         port = 5432
         # )
         with open('db_local_creds.yaml') as f:
