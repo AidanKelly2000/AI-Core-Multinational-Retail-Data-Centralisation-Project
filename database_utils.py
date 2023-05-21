@@ -50,40 +50,6 @@ class DatabaseConnector():
         engine.connect()
         df.to_sql(table_name, engine, if_exists='replace')
 
-    @staticmethod
-    def list_number_of_stores(endpoint, headers):
-
-        response = requests.get(endpoint, headers=headers)
-        return int(response.text[37:40])
-
-    @staticmethod
-    def retrieve_stores_data(endpoint, headers):
-
-        # Create an empty list to hold the store data
-        store_data = []
-
-        # Loop over all possible store numbers
-        for store_number in range(0, 451):
-            
-            # Construct the store endpoint URL using the current store number
-            url = endpoint.format(store_number=store_number)
-
-            # Make a request to the store endpoint
-            response = requests.get(url, headers=headers)
-
-            # Extract the store data from the response JSON
-            store_json = response.json()
-
-            # Append the store data to the store_data list
-            store_data.append(store_json)
-
-        # Convert the store data to a pandas DataFrame
-        store_data_df = pd.DataFrame(store_data)
-
-        # Return the DataFrame
-        return store_data_df
-
-
 
 # db_creds.init_db_engine()
 # db_creds.list_db_tables()
