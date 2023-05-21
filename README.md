@@ -382,18 +382,23 @@ The last part of this project was to query the database using PostgreSQL
 
 * Task 1: How many stores does the business have and in which countries?
 
+```sql
 SELECT country_code, COUNT(*) AS total_no_stores
 FROM dim_store_details
 GROUP BY country_code;
+```
 
 * Task 2: Which locations currently have the most stores?
 
+```sql
 SELECT locality, COUNT(*) AS total_no_stores
 FROM dim_store_details
 GROUP BY locality;
+```
 
 * Task 3: Which months produce the average highest cost of sales typically?
 
+```sql
 SELECT 
        SUM(pr.product_price * ord.product_quantity) AS sales, dt.month  
 FROM dim_products AS pr
@@ -402,9 +407,11 @@ JOIN dim_date_times AS dt ON dt.date_uuid = ord.date_uuid
   GROUP BY dt.month
   ORDER BY sales DESC
   LIMIT 6
+```
 
 * Task 4: How many sales are coming from online?
 
+```sql
 SELECT
   COUNT(*) AS number_of_sales,
   SUM(product_quantity) AS product_quantity_count,
@@ -414,9 +421,11 @@ SELECT
   END AS location  
 FROM orders_table 
 GROUP BY location
+```
 
 * Task 5: What percentage of sales come through each type of store?
 
+```sql
 SELECT 
   store_type,
   ROUND(SUM(product_quantity * product_price)::numeric, 2) AS total_sales,
@@ -430,9 +439,11 @@ JOIN orders_table AS ord ON st.store_code = ord.store_code
 JOIN dim_products AS pr ON pr.product_code = ord.product_code
 GROUP BY store_type
 ORDER BY total_sales DESC;
+```
 
 * Task 6: Which month in each year produced the highest cost of sales?
 
+```sql
 SELECT 
 ROUND(SUM(product_quantity * product_price)::numeric, 2) AS total_sales,
 dt.year, 
@@ -443,17 +454,21 @@ JOIN dim_products AS pr ON pr.product_code = ord.product_code
 GROUP BY dt.month, dt.year
 ORDER BY total_sales DESC
 LIMIT 10;
+```
 
 * Task 7: What is our staff headcount?
 
+```sql
 SELECT SUM(staff_numbers) AS total_staff_numbers,
 country_code
 FROM dim_store_details
 GROUP BY country_code
 ORDER BY total_staff_numbers DESC
+```
 
 * Task 8: Which German store type is selling the most
 
+```sql
 SELECT SUM(product_quantity * product_price) AS total_sales,
 store_type,
 country_code
@@ -463,3 +478,4 @@ JOIN dim_products AS pr ON pr.product_code = ord.product_code
 WHERE country_code = 'DE'
 GROUP BY store_type, country_code
 ORDER BY total_sales ASC; 
+```
