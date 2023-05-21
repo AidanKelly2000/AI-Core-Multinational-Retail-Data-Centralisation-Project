@@ -55,6 +55,39 @@ class DataExtractor():
         dates_and_times = pd.DataFrame(data)
 
         return dates_and_times
+    
+    @staticmethod
+    def list_number_of_stores(endpoint, headers):
+
+        response = requests.get(endpoint, headers=headers)
+        return int(response.text[37:40])
+
+    @staticmethod
+    def retrieve_stores_data(endpoint, headers):
+
+        # Create an empty list to hold the store data
+        store_data = []
+
+        # Loop over all possible store numbers
+        for store_number in range(0, 451):
+            
+            # Construct the store endpoint URL using the current store number
+            url = endpoint.format(store_number=store_number)
+
+            # Make a request to the store endpoint
+            response = requests.get(url, headers=headers)
+
+            # Extract the store data from the response JSON
+            store_json = response.json()
+
+            # Append the store data to the store_data list
+            store_data.append(store_json)
+
+        # Convert the store data to a pandas DataFrame
+        store_data_df = pd.DataFrame(store_data)
+
+        # Return the DataFrame
+        return store_data_df
 
 
 
@@ -75,7 +108,7 @@ db_extractor = DataExtractor()
 
 # headers={'x-api-key': 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'}
 # stores_data = "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/{store_number}"
-# store_data = db_connector.retrieve_stores_data(stores_data, headers)
+# store_data = retrieve_stores_data(stores_data, headers)
 # cleaned_store_data = DataCleaning.clean_store_data(store_data)
 # db_connector.upload_to_db(cleaned_store_data, 'dim_store_details')
 
@@ -85,8 +118,8 @@ db_extractor = DataExtractor()
 # db_connector.upload_to_db(converted_weights, 'dim_products')
 
 
-orders_df = db_extractor.read_rds_table(table='orders_table', engine=db_connector.engine)
-clean_orders_table = DataCleaning.clean_orders_data(orders_df)
+# orders_df = db_extractor.read_rds_table(table='orders_table', engine=db_connector.engine)
+# clean_orders_table = DataCleaning.clean_orders_data(orders_df)
 # db_connector.upload_to_db(clean_orders_table, 'orders_table')
 
 # url = 'https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json'
